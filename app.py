@@ -1,22 +1,22 @@
-import os
-from os.path import join, dirname
-from dotenv import load_dotenv
-
-
 from http import client
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
 import requests
 from bs4 import BeautifulSoup
 
-dotenv_path = join(dirname(__file__), '.env')
+import os
+from os.path import join,dirname
+from dotenv import load_dotenv
+
+dotenv_path = join(dirname(__file__),'.env')
 load_dotenv(dotenv_path)
 
-MONGODB_URI = os.environ.get("MONGODB_URI")
-DB_NAME =  os.environ.get("DB_NAME")
+
+MONGODB_URI = os.environ.get('MONGODB_URI')
+DBNAME = os.environ.get('DBNAME')
 
 client = MongoClient(MONGODB_URI)
-db = client[DB_NAME]
+db = client[DBNAME]
 
 app = Flask(__name__)
 
@@ -40,7 +40,6 @@ def movie_post():
     og_image = soup.select_one('meta[property="og:image"]')
     og_title = soup.select_one('meta[property="og:title"]')
     og_description = soup.select_one('meta[property="og:description"]')
-    print(og_title)
 
     image = og_image['content']
     title = og_title['content']
